@@ -6,21 +6,26 @@
  */
 namespace Controller;
 
-use Core\Database;
-use Core\Error;
 use Core\Template;
-use Helper\Encrypt;
-use Helper\Key;
+use Helper\Mailer;
+use Helper\Option;
+use Helper\Utils;
+use Model\Mail;
+use Model\Node;
 
-class Index {
+class Index
+{
 
     /**
      * 进入首页
      */
-    public function index() {
-
-    		
-        include Template::load('/home/index');
+    public function index()
+    {
+        Template::setView('home/index');
     }
 
+    public function test()
+    {
+
+    }
 }

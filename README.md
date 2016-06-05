@@ -1,109 +1,45 @@
-Shadowsocks Panel
-===================
+## Shadowsocks Panel
 
-一个比较简单的 ss panel
-采用全页面的 Ajax请求
-支持PHP7
-
-### 程序截图
-![后台](https://static-2.loacg.com/open/static/ss-panel-github/Admin.png)
-![前台](https://static-2.loacg.com/open/static/ss-panel-github/member.png)
-![前台](https://static-2.loacg.com/open/static/ss-panel-github/member2.png)
-![前台](https://static-2.loacg.com/open/static/ss-panel-github/member3.png)
-
-### 配置 Rewrite 路由
-nginx
-```
-if (!-e $request_filename) {
-    rewrite (.*) /index.php last;
-}
-```
-apache
-```
-RewriteEngine On
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ index.php [L]
-```
-
-### Composer libs
-if your in china , please edit `composer.json` content, add content to composer config
-```
-		,
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "http://packagist.phpcomposer.com"
-        }
-    }
-```
-and run comm `php composer install`
+**A powerful Shadowsocks management system**
 
 
-Based KK-Framework :
-https://github.com/kookxiang/KK-Framework
+> Comprehensive user permissions management.
+> All codes come with clear annotation.
+> Optimized for various operations:
+> 	1. Self-service user profile change and add value. 
+> 	2. Invitation page optimization: no refresh upon submission.
+> 	3. Dynamic control of system properties.
+> 	4. Scheduled Tasks control.
+> 	5. Preview! Support for Shadowsocks Manyuser branch.
+> 	6. Support varies encryption algorithms (`chacha20`, `aes-128-cfb`, `aes-192-cfb`, `aes-256-cfb`, `rc4-md5`).
 
-shadowsocks-manyuser ：
-```
-https://github.com/sendya/shadowsocks-rm/tree/manyuser
-```
+Required PHP version: PHP5.5 ~ PHP7. PHP7 is recommended.
 
-### update logs
-```
-2016.02.05~02.06 :
-	Update sql(default db insert.)
-	Add admin page
-	Add nodeList/nodeAdd/nodeModify/nodeDelete
-
-2016.01.13~01.27 :
-	Fix bug
-	Login diff
-	Add migr
-	create Alpha.01 version.
-
-2016.01.02 :
-	Create install setp
-	Fix bug
-
-2015.12.14 : 
-	Fix admin/ router
-	Add user power(admin table)
-	Update sql
-
-2015.12.09 : 
-	Add register page auto value func
-	exp: http://local.dev/Auth/login?invite=9973C1D6A6557CCF#register
-	(?invite=your invite code)
-	Fix login/register page Button disabled check
-	----------------
-	body on ajax load
-
-2015.12.08 : 
-	upport PHP7.
-	Fix user register
-	Fix inviteCode check
-	Fix inivte update info
-	Fix member lastConnTime
-	...
-	Add Message model & db sql
-	Fix member node number count
-
-2015.11.29 :
-	Add page invite, changepassword
-
-2015.11.27 :
-
-	Add page template.
-2015.11.05 :
-
-	Add Invite model. 
-```
-
-Install Shadowsocks-panel
-```
+### Quick Start
+```bash
+#Pick one version: Latest or Stable
+# Download script: The Latest Version
+cd /home/wwwroot/
 git clone https://github.com/sendya/shadowsocks-panel.git
 cd shadowsocks-panel
-composer install
 
+# Download script: Stable Version (Recommended)
+# Go to https://github.com/sendya/shadowsocks-panel/releases, download the latest release version (current version: v1.18)
+wget https://github.com/sendya/shadowsocks-panel/archive/sspanel-v1.18.zip -O shadowsocks-panel.zip
+# Extract to /home/wwwroot/shadowsocks-panel/
+$ unzip -o -d /home/wwwroot/shadowsocks-panel/ shadowsocks-panel.zip
+$ cd /home/wwwroot/shadowsocks-panel/
+
+# Copy ./Data/Config.simple.php to ./Data/Config.php
+cp ./Data/Config.simple.php ./Data/Config.php
+# Set the Data directory permissions to read and write
+chmod -R 777 ./Data/
+# Configure database (relevanet code at the bottom)
+vim ./Data/Config.php
+
+# Start the installation
+php index.php install
 ```
+
+### Documentation
+Detailed installation documentation [Wiki](https://github.com/sendya/shadowsocks-panel/wiki)

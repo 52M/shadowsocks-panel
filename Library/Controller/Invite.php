@@ -8,36 +8,69 @@
 namespace Controller;
 
 use \Core\Template;
-use \Helper\Listener;
 
+use Helper\Utils;
+use Model\User;
 use \Model\Invite as InviteModel;
 
-class Invite extends Listener {
 
-    public function index() {
-        $inviteList = \Model\Invite::GetInvitesByUid(-1);
+class Invite
+{
 
-        include Template::load('/home/invite');
+    public function index()
+    {
+        $inviteList = InviteModel::getInviteArray(-1);
+        Template::setView('home/invite');
+        Template::putContext('inviteList', $inviteList);
     }
 
-    public function userAddInvite() {
-        global $user;
-        $result = array('error' => 1, 'message' => '添加邀请码失败');
-        if(!$user) {
-            $result = array('error' => 1, 'message' => '没有权限');
-        }
-        if($user->getFlow() > 10) {
+    /**
+     * 生成邀请码，必要权限检查
+     *
+     * @JSON
+     * @Authorization
+     */
+    public function create()
+    {
+        $user = User::getUserByUserId(User::getCurrent()->uid);
 
-            $invite = InviteModel::addInvite($user->uid);
-            if($invite!=null) {
-                $result = array('error' => 0, 'message' => '添加成功，邀请码为：' . $invite . " ,您可以稍后在列表内查看到您新增的邀请码");
-            }
-        } else {
-            $result = array('error' => 1, 'message' => '您的流量不足');
+        $result = array('error' => 1, 'message' => '创建邀请码失败，您没有再次创建邀请码的次数了。当然，你可以用流量购买次数。(10GB/个)');
+        $user->invite_num = $user->invite_num -1;
+
+        if ($user->invite_num > 0) {
+            $invite = InviteModel::addInvite($user->uid, 'A');
+            $result = array(
+                'error' => 0,
+                'message' => '创建邀请码成功，刷新后可见',
+                'invite_num' => $user->invite_num,
+                'invite' => $invite
+            );
         }
-        echo json_encode($result);
-        exit();
+        $user->save();
+        $_SESSION['currentUser'] = $user;
+
+        return $result;
     }
 
+    /**
+     * 购买邀请码，必要权限检查
+     *
+     * @JSON
+     * @Authorization
+     * @return array
+     */
+    public function buy()
+    {
+        $user = User::getUserByUserId(User::getCurrent()->uid);
+        $result = array('error' => 1, 'message' => '购买失败，至少需要20GB流量才能购买邀请码。');
+        $transfer = Utils::GB * 10;
+        if ($user->transfer > ($transfer * 2)) {
+            $user->transfer = $user->transfer - $transfer;
+            $user->invite_num = $user->invite_num + 1;
+            $user->save();
+            $result = array('error' => 0, 'message' => '购买成功，扣除手续费10GB流量', 'invite_num' => $user->invite_num);
+        }
+        return $result;
+    }
 
 }

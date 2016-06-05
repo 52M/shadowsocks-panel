@@ -1,12 +1,13 @@
-<if condition="$controllerName != 'Login' && $controllerName != 'Lockscreen' && $controllerName != 'Invite' && $controllerName != 'Tos' ">
+<if condition="$controllerName != 'Login' && $controllerName != 'Lockscreen' && $controllerName != 'Invite' && $controllerName != 'Tos' && $controllerName != 'ForgePwd' && $controllerName != 'Ticket' && $controllerName != 'Order'">
 <footer class="main-footer sticky footer-type-1">
 
     <div class="footer-inner">
 
-        <!-- Add your copyright text here -->
+        <!-- 在这里修改你的版权信息 -->
         <div class="footer-text">
-            <strong>Copyright © 2014-2015 <a href="#">Suki.im</a> </strong>
-            All rights reserved.  Powered by  <b>ss-panel</b>2.5.7 Themes by <a href="https://loacg.com/">Sendya</a> | <a href="https://shenghuo.alipay.com/send/payment/fill.htm?optEmail=18x@loacg.com" target="_blank">向我捐赠</a> | <a href="/my/tos">服务条款</a>
+            Copyright © 2014-2015 <strong><a href="{BASE_URL}">{SITE_NAME}</a></strong>&nbsp;
+            All rights reserved.  Powered by <b>All Users.</b>
+            &nbsp;| <a href="/support/tos">服务条款</a> | That took {(\Core\Router::execTime())} seconds.
         </div>
         <!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
         <div class="go-up">
@@ -23,23 +24,27 @@
     function pageJSload() {
         xenon_toggles_init();
         xenon_init();
+        if( typeof node_modal_init === 'function' ) {
+            node_modal_init();
+        }
     }
 </script>
 </div>
 
-<script src="{TPL_PATH}js/bootstrap.min.js"></script>
-<script src="{TPL_PATH}js/TweenMax.min.js"></script>
-<script src="{TPL_PATH}js/resizeable.js"></script>
-<script src="{TPL_PATH}js/joinable.js"></script>
-<script src="{TPL_PATH}js/xenon-api.js"></script>
-<script src="{TPL_PATH}js/xenon-toggles.js"></script>
-<script src="{TPL_PATH}js/jquery-validate/jquery.validate.min.js"></script>
-<script src="{TPL_PATH}js/toastr/toastr.min.js"></script>
-<script src="{TPL_PATH}js/xenon-widgets.js"></script>
-<script src="{TPL_PATH}js/devexpress-web-14.1/js/globalize.min.js"></script>
-<script src="{TPL_PATH}js/devexpress-web-14.1/js/dx.chartjs.js"></script>
+<script src="{RESOURCE}/js/bootstrap.min.js"></script>
+<script src="{RESOURCE}/js/TweenMax.min.js"></script>
+<script src="{RESOURCE}/js/resizeable.js"></script>
+<script src="{RESOURCE}/js/joinable.js"></script>
+<script src="{RESOURCE}/js/xenon-api.js"></script>
+<script src="{RESOURCE}/js/xenon-toggles.js"></script>
+<script src="{RESOURCE}/js/jquery-validate/jquery.validate.min.js"></script>
+<script src="{RESOURCE}/js/jquery.md5.js"></script>
+<script src="{RESOURCE}/js/toastr/toastr.min.js"></script>
+<script src="{RESOURCE}/js/xenon-widgets.js"></script>
+<script src="{RESOURCE}/js/devexpress-web-14.1/js/globalize.min.js"></script>
+<script src="{RESOURCE}/js/devexpress-web-14.1/js/dx.chartjs.js"></script>
 <!-- JavaScripts initializations and stuff -->
-<script src="{TPL_PATH}js/xenon-custom.js"></script>
-<script src="{TPL_PATH}js/pjax.js"></script>
+<script src="{RESOURCE}/js/xenon-custom.js"></script>
+<script src="{RESOURCE}/js/pjax.js"></script>
 </body>
 </html>
